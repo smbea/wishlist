@@ -1,8 +1,11 @@
 import express from "express";
+import {connectToDb} from "./queries";
 import cors from "cors";
 
 const app = express();
 const port = 8080; // default port to listen
+
+connectToDb()
 
 app.use(cors());
 
