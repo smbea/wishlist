@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function ItemForm() {
+function LoginForm() {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(loggedIn)
+      navigate('/add-item', {replace: true});
+  })
 
   const fetchData = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,6 +35,7 @@ function ItemForm() {
       .then(async (response) => {
         if(response.status === 200) {
           setLoggedIn(true);
+
         } else{
           throw new Error("Invalid credentials")
         }
@@ -59,7 +67,7 @@ function ItemForm() {
             </div>
             <div>
               <button type="submit" >
-              Submit
+              Login
               </button>
             </div>
             {error ? <div>{error}</div> : null}
@@ -69,4 +77,4 @@ function ItemForm() {
   );
 }
 
-export default ItemForm;
+export default LoginForm;

@@ -16,11 +16,15 @@ export const connectToDb = async () => {
   });
 
   try {
-     await sequelize.authenticate();
-     console.log('Connection has been established successfully.');
 
-     await User.sync();
-     await User.create({username: "user", password: "user"});
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+
+    await User.sync();
+    const users =  await User.findAll();
+
+    if(users.length === 0)
+      await User.create({username: "user", password: "user"});
 
     return sequelize;
 
