@@ -4,6 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import {User} from "./models/User";
 import { Sequelize } from "sequelize";
+import { Item } from "./models/Item";
 
 
 const app = express();
@@ -35,10 +36,22 @@ app.post( "/login", async ( req, res ) => {
   }
 } );
 
+
+app.post( "/item", async ( req, res ) => {
+  const data = req.body;
+
+  await Item.sync();
+  const item = await Item.create({...data});
+
+  res.status(200);
+} );
+
+
 app.get( "/item", ( req, res ) => {
-  fetch(`http://127.0.0.1:8000/?url=${req.query.url}`)
+  fetch(`http://127.0.0.1:8000/?url=${req.query.url}`, {headers: {'Content-type': 'application/json'}})
       .then(async (response) => {
-        const body = await response.text();
+        // console.log(response)
+        const body = await response.json();
         res.send(body);
       })
       .catch(error => {
@@ -46,6 +59,12 @@ app.get( "/item", ( req, res ) => {
         // res.status(500).send(error)
       });
 
+} );
+
+
+app.get( "/items", async ( req, res ) => {
+  const items = await Item.findAll();
+  res.send(items)
 } );
 
 // start the Express server

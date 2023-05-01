@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import { User } from './models/User';
+import { Item } from './models/Item';
 
 let sequelize;
 
@@ -12,7 +13,7 @@ export const connectToDb = async () => {
     password: 'postgres',
     storage: ':memory:',
     host: '0.0.0.0',
-    models: [User]
+    models: [User, Item]
   });
 
   try {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css';
 
 function ItemForm() {
 
@@ -14,33 +13,55 @@ function ItemForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  function isValidUrl(str: string) {
+    let url;
+
+    try {
+      url = new URL(str);
+    } catch (_) {
+      return false;
+    }
+    return url.protocol === "http:" || url.protocol === "https:";
+  }
+
+  const fetchData = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setLoading(true);
+    const url = e.currentTarget.value;
 
-    const form = e.currentTarget;
-    const formElements = form.elements as typeof form.elements & {
-      url: {value: string}
-    };
-    const url = formElements.url.value; 
+    if(isValidUrl(url) && !loading) {
 
-    fetch(`http://localhost:8080/item?url=${url}`)
-      .then(async (response) => {
-        const body = await response.json();
-        setError('');
-        setResults(body);
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error.message);
-        setLoading(false);
-      });
+      setLoading(true);
+
+      fetch(`http://localhost:8080/item?url=${url}`)
+        .then(async (response) => {
+          const body = await response.json();
+          setError('');
+          setResults({...body, url});
+          setLoading(false);
+        })
+        .catch(error => {
+          setError(error.message);
+          setLoading(false);
+        });
+    }
   };
+
+  const saveItem = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if(!loading) {
+      fetch(`http://localhost:8080/item`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...results })
+    })
+    }
+  }
 
   return (
     <div>
       <div>
-        <form onSubmit={fetchData}>
+        <form  onSubmit={saveItem}>
           <div>
             <h3>Add item</h3>
             <div>
@@ -49,29 +70,30 @@ function ItemForm() {
                 type="url"
                 placeholder="Enter url"
                 id='url'
+                onInput={fetchData}
               />
             </div>
             {loading ? 
               <span className="loader"></span>
                           : null}
+            {(results || error) && 
+              <div>
+                <h3>Results</h3>
+                <div>{error ? error : null}</div>
+                <div>{results.title}</div>
+                <div>{results.price}</div>
+                <img src={results.image} alt=""/>
+                
+              </div>
+            }
             <div>
-              <button type="submit" >
-              Submit
+              <button type="submit">
+              Save
               </button>
             </div>
           </div>
         </form>
       </div>
-      {(results || error) && 
-        <div>
-          <h3>Results</h3>
-          <div>{error ? error : null}</div>
-          <div>{results.title}</div>
-          <div>{results.price}</div>
-          <img src={results.image} alt=""/>
-          
-        </div>
-      }
     </div>
   );
 }
