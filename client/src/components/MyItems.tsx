@@ -1,5 +1,7 @@
-import React, {useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import ItemForm from './ItemForm';
 
 function LoginForm() {
 
@@ -7,12 +9,11 @@ function LoginForm() {
     title: string;
     price: string;
     image: string;
+    url: string;
   };
-  
 
   const [items, setItems] = useState<Item[]>([]);
-
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:8080/items`)
@@ -24,18 +25,34 @@ function LoginForm() {
     
   }, [])
 
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
+
   return (
     <div> 
-      My Items
+      <h3>My Wishlist</h3>
+      <Button
+        variant="primary"
+        type='submit'
+        onClick={handleShow}
+      >
+        Add item
+      </Button>
       {items.map((item) => {       
-           return (
-            <div>
-              <div>{item.title}</div>
+        return (
+          <Card title={item.title} key={item.url} style={{ width: '18rem' }}>
+            {item.image && <Card.Img src ={item.image}/>}
+            <Card.Body>
+              <Card.Title>{item.title}</Card.Title>
               <div>{item.price}</div>
-              {item.image && <img src ={item.image} alt="img"/>}
-            </div>
+              <a href={item.url}>url</a>
+            </Card.Body>
+          </Card>
         ) 
-        })}
+      })}
+
+      <ItemForm show={showModal} onHide={handleClose}/>
     </div>
   );
 }

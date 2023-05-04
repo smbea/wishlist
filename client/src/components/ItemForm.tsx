@@ -1,6 +1,11 @@
+import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
+import { Modal, Form } from 'react-bootstrap';
 
-function ItemForm() {
+function ItemForm(props: {
+  show: boolean,
+  onHide: () => void
+}) {
 
   type Item = {
     title: string;
@@ -26,6 +31,7 @@ function ItemForm() {
 
   const fetchData = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
+    setResults({title: '', price: '', image: ''});
     const url = e.currentTarget.value;
 
     if(isValidUrl(url) && !loading) {
@@ -58,27 +64,33 @@ function ItemForm() {
     }
   }
 
+  const onClose = () => {
+    props.onHide();
+    setResults({title: '', price: '', image: ''});
+  }
+
   return (
-    <div>
-      <div>
-        <form  onSubmit={saveItem}>
-          <div>
-            <h3>Add item</h3>
-            <div>
-              <label>Item Url</label>
-              <input
-                type="url"
-                placeholder="Enter url"
-                id='url'
-                onInput={fetchData}
-              />
-            </div>
+    <Modal show={props.show} onHide={onClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Add item</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={saveItem}>
+          <Form.Group>
+            <Form.Label>Url</Form.Label>
+            <Form.Control
+              type="url"
+              placeholder="Enter url"
+              id='url'
+              onInput={fetchData}
+            />
+          </Form.Group>
             {loading ? 
               <span className="loader"></span>
                           : null}
             {(results || error) && 
               <div>
-                <h3>Results</h3>
+                <hr/>
                 <div>{error ? error : null}</div>
                 <div>{results.title}</div>
                 <div>{results.price}</div>
@@ -87,14 +99,17 @@ function ItemForm() {
               </div>
             }
             <div>
-              <button type="submit">
-              Save
-              </button>
+              <Button
+                variant="primary"
+                disabled={loading}
+                type='submit'
+              >
+                Save
+              </Button>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }
 
