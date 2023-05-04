@@ -60,7 +60,10 @@ function ItemForm(props: {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...results })
-    })
+      })
+      .then(() => {
+        onClose()
+      })
     }
   }
 

@@ -41,9 +41,9 @@ app.post( "/item", async ( req, res ) => {
   const data = req.body;
 
   await Item.sync();
-  const item = await Item.create({...data});
+  await Item.create({...data});
 
-  res.status(200);
+  res.status(200).send({message: "ok"});
 } );
 
 
@@ -65,6 +65,12 @@ app.get( "/item", ( req, res ) => {
 app.get( "/items", async ( req, res ) => {
   const items = await Item.findAll();
   res.send(items)
+} );
+
+app.delete( "/item", async ( req, res ) => {
+  const id = req.body.id;
+
+  Item.destroy({where: {id}})
 } );
 
 // start the Express server
