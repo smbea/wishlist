@@ -11,8 +11,7 @@ export const connectToDb = async () => {
     dialect: 'postgres',
     username: 'postgres',
     password: 'postgres',
-    storage: ':memory:',
-    host: '0.0.0.0',
+    host: 'postgres',
     models: [User, Item]
   });
 
@@ -33,3 +32,7 @@ export const connectToDb = async () => {
     console.error('Unable to connect to the database:', error);
   }
 }
+
+module.exports = {
+  connectToDb
+};

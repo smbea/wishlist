@@ -10,7 +10,7 @@ import { Item } from "./models/Item";
 const app = express();
 const port = 8080; // default port to listen
 
-const db:Sequelize = null;
+const db: typeof Sequelize = null;
 
 connectToDb()
 
@@ -30,7 +30,7 @@ app.post( "/login", async ( req, res ) => {
   const user = await User.findOne({where: {username, password}});
 
   if(user) {
-    res.status(200).send({message: "ok"})
+    res.status(200).send({message: "okk"})
   } else {
     res.status(409).send({message: "The credentials are not correct"})
   }
@@ -74,7 +74,7 @@ app.delete( "/item", async ( req, res ) => {
 } );
 
 // start the Express server
-app.listen( port, () => {
+app.listen(port, () => {
     // tslint:disable-next-line:no-console
     console.log( `server started at http://localhost:${ port }` );
 } );
