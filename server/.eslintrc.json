@@ -1,0 +1,42 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "standard-with-typescript"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+    "array-bracket-spacing": [ "error", "always" ],
+    "keyword-spacing": [ 2 ],
+    "lines-around-comment": [ 2, { "beforeBlockComment": true, "beforeLineComment": true } ],
+    "no-bitwise": 2,
+    "no-console": 0,
+    "no-multi-spaces": 2,
+    "no-trailing-spaces": [ 2 ],
+    "object-curly-spacing": [ 2, "always" ],
+    "semi": [ 2, "always" ],
+    "space-before-blocks": [ 2, "always" ],
+    "space-before-function-paren": [ "error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    } ],
+    "spaced-comment": [ 2, "always" ],
+    "space-in-parens": [ "error", "never" ],
+    "space-infix-ops": "error",
+    "quotes": [ 2, "single", { "avoidEscape": true } ]
+  }
+}
