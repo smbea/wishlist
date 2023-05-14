@@ -1,0 +1,55 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "standard-with-typescript"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+    "@typescript-eslint/space-before-function-paren": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "array-bracket-spacing": [ "error", "always" ],
+    "keyword-spacing": [ 2 ],
+    "no-multi-spaces": 2,
+    "no-trailing-spaces": [ 2 ],
+    "object-curly-spacing": [ 2, "always" ],
+    "semi": [ 2, "always" ],
+    "space-before-blocks": [ 2, "always" ],
+    "space-before-function-paren": [ "error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    } ],
+    "spaced-comment": [ 2, "always" ],
+    "space-in-parens": [ "error", "never" ],
+    "space-infix-ops": "error",
+    "quotes": [ 2, "single", { "avoidEscape": true } ],
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
