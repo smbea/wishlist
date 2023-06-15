@@ -50,9 +50,10 @@ const ItemForm: React.FunctionComponent<Props> = ({ show, onHide }) => {
           setResults({ ...body, url });
           setLoading(false);
         })
-        .catch(error => {
+        .catch(async error => {
           setError(error.message);
           setLoading(false);
+          return await Promise.reject(error);
         });
     }
   };
