@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:18
 
 # Create app directory
 WORKDIR /app
@@ -10,6 +10,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD npm run dev
