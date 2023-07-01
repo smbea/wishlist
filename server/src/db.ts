@@ -4,7 +4,7 @@ import { Item } from './models/Item';
 
 let sequelize;
 
-export const connectToDb = async (): Promise<Sequelize> => {
+export const connectToDb = async (): Promise<void> => {
   sequelize = new Sequelize({
     database: 'postgres',
     dialect: 'postgres',
@@ -22,8 +22,6 @@ export const connectToDb = async (): Promise<Sequelize> => {
     const users = await User.findAll();
 
     if (users.length === 0) { await User.create({ username: 'user', password: 'user' }); }
-
-    return sequelize;
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
