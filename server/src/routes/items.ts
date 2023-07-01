@@ -74,23 +74,4 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
-router.get('/info', async (req, res) => {
-  const url: string = req.query.url as string;
-
-  if (url === '') res.status(400).send('Missing url parameter');
-
-  fetch(`https://ecommerce-scraper-saeh.onrender.com/?url=${url}`, { headers: { 'Content-type': 'application/json' } })
-    .then(async (response) => {
-      if (response.ok) {
-        const body = await response.json();
-        res.status(200).send(body);
-      } else {
-        const error = await response.json();
-        res.status(400).send(error.message);
-      }
-    }).catch((e) => {
-      console.log(e);
-    });
-});
-
 export default router;
